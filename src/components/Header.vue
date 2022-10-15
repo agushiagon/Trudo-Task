@@ -1,30 +1,41 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand>TRUDO-NEWS</b-navbar-brand>
-
+  <b-navbar class="header" type="dark" variant="dark">
+    <b-navbar-brand to="/">TRUDO-NEWS</b-navbar-brand>
     <b-navbar-nav>
-      <b-nav-item-dropdown right>
+      <b-nav-item-dropdown left>
         <template #button-content>
-          <em>User</em>
+          <b-avatar></b-avatar>
         </template>
-        <b-dropdown-item href="#">Profile</b-dropdown-item>
-        <b-dropdown-item v-if="true" href="/auth">Login</b-dropdown-item>
-        <b-dropdown-item v-else href="#">Sign Out</b-dropdown-item>
+        <b-dropdown-item to="/user-profile">Profile</b-dropdown-item>
+        <b-dropdown-item v-if="!isLoggedIn" to="/auth">Login</b-dropdown-item>
+        <b-dropdown-item v-else @click="logout"> Log Out </b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-navbar>
 </template>
 
 <script>
-export default {}
+export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+      this.$route.name === "news" ? "" : this.$router.replace("/news");
+    },
+  },
+};
 </script>
 
 <style scoped>
-header {
+.header {
   width: 100%;
-  height: 100px;
+  padding: 20px 100px 20px 50px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 </style>
