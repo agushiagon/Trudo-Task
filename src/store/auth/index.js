@@ -64,6 +64,7 @@ export default {
               lastName: payload.lastName,
               userName: payload.userName,
               totalNewsCreated: null,
+              userId: responseData.localId,
             }),
           }
         );
