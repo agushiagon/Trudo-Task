@@ -1,12 +1,28 @@
 <template>
   <div class="user-auth">
-    <b-form-group v-if="mode === 'signup'" class="mb-2" label="Full name:">
-      <b-form-input
-        v-model="displayName"
-        type="text"
-        placeholder="Enter full name"
-      />
-    </b-form-group>
+    <div v-if="mode === 'signup'">
+      <b-form-group class="mb-2" label="First Name:">
+        <b-form-input
+          v-model="firstName"
+          type="text"
+          placeholder="Enter first name"
+        />
+      </b-form-group>
+      <b-form-group class="mb-2" label="Last name:">
+        <b-form-input
+          v-model="lastName"
+          type="text"
+          placeholder="Enter last name"
+        />
+      </b-form-group>
+      <b-form-group class="mb-2" label="Username:">
+        <b-form-input
+          v-model="userName"
+          type="text"
+          placeholder="Enter username"
+        />
+      </b-form-group>
+    </div>
     <b-form-group label="Email address:">
       <b-form-input
         v-model="email"
@@ -59,7 +75,9 @@ export default {
     return {
       email: "",
       password: "",
-      displayName: "",
+      firstName: "",
+      lastName: "",
+      userName: "",
       formIsValid: true,
       mode: "login",
       isLoading: false,
@@ -99,6 +117,9 @@ export default {
       const actionPayload = {
         email: this.email,
         password: this.password,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        userName: this.userName,
       };
 
       try {

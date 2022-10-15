@@ -6,6 +6,7 @@ export default {
       userId: null,
       token: null,
       didAutoLogout: false,
+      userData: null,
     };
   },
   actions: {
@@ -35,7 +36,7 @@ export default {
         body: JSON.stringify({
           email: payload.email,
           password: payload.password,
-          displayName: payload.displayName,
+          displayName: `${payload.firstName} ${payload.lastName}`,
           returnSecureToken: true,
         }),
       });
@@ -50,6 +51,21 @@ export default {
         );
         throw error;
       }
+
+      await fetch(
+        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/users/${responseData.localId}.json?auth=` +
+        responseData.idToken,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            email: payload.email,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            userName: payload.userName,
+            totalNewsCreated: null,
+          }),
+        }
+      );
 
       const expiresIn = +responseData.expiresIn * 1000;
       const expirationDate = new Date().getTime() + expiresIn;
@@ -115,10 +131,16 @@ export default {
     setAutoLogout(state) {
       state.didAutoLogout = true;
     },
+    setUserData(state, payload) {
+      state.userData = payload;
+    },
   },
   getters: {
     userId(state) {
       return state.userId;
+    },
+    userData(state) {
+      return state.userData;
     },
     token(state) {
       return state.token;

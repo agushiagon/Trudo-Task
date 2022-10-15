@@ -24,7 +24,8 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
-      this.$route.name === "news" ? "" : this.$router.replace("/news");
+      this.$router.replace("/auth");
+      // this.$route.name === "news" ? "" : this.$router.replace("/news");
     },
   },
 };
