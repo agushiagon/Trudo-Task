@@ -25,6 +25,15 @@ const routes = [
     component: () => import("../views/Profile.vue"),
     meta: { requiresAuth: true },
   },
+  {
+    path: "/error",
+    name: "error",
+    component: () => import("../views/Error.vue"),
+  },
+  {
+    path: "*",
+    redirect: "/error",
+  },
 ];
 
 const router = new VueRouter({
