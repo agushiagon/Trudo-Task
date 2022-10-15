@@ -52,20 +52,22 @@ export default {
         throw error;
       }
 
-      await fetch(
-        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/users/${responseData.localId}.json?auth=` +
-        responseData.idToken,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            email: payload.email,
-            firstName: payload.firstName,
-            lastName: payload.lastName,
-            userName: payload.userName,
-            totalNewsCreated: null,
-          }),
-        }
-      );
+      if (mode === "signup") {
+        await fetch(
+          `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/users/${responseData.localId}.json?auth=` +
+          responseData.idToken,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              email: payload.email,
+              firstName: payload.firstName,
+              lastName: payload.lastName,
+              userName: payload.userName,
+              totalNewsCreated: null,
+            }),
+          }
+        );
+      }
 
       const expiresIn = +responseData.expiresIn * 1000;
       const expirationDate = new Date().getTime() + expiresIn;
@@ -120,6 +122,26 @@ export default {
     autoLogout(context) {
       context.dispatch("logout");
       context.commit("setAutoLogout");
+    },
+    async getUserData(context) {
+      const userId = context.rootGetters.userId;
+      const response = await fetch(
+        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=`,
+        {
+          method: "GET",
+        }
+      );
+
+      const responseData = await response.json();
+      console.log(responseData);
+
+      if (!response.ok) {
+        const error = new Error(
+          responseData.error.message || "Something went wrong :)"
+        );
+        throw error;
+      }
+      context.commit("setUserData", responseData);
     },
   },
   mutations: {
