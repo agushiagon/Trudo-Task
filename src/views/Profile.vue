@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoading">test</div>
+  <div class="w-100 text-center" v-if="isLoading">Loading...</div>
   <div v-else class="user-profile">
     <div>
       <span> First Name: </span>
@@ -53,8 +53,10 @@ export default {
   display: flex;
   flex-direction: column;
   font-size: 22px;
-  align-items: center;
   margin-top: 50px;
+  margin-left: auto;
+  width: fit-content;
+  margin-right: auto;
 }
 span {
   margin-bottom: 15px;
