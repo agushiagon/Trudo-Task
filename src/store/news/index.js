@@ -5,7 +5,7 @@ export default {
     };
   },
   actions: {
-    async saveNews(payload) {
+    async saveNews(_, payload) {
       const response = await fetch(
         `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news.json`,
         {
