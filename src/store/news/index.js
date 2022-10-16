@@ -5,12 +5,11 @@ export default {
     };
   },
   actions: {
-    async saveNews(context, payload) {
-      const userId = context.rootGetters.userId;
+    async saveNews(payload) {
       const response = await fetch(
-        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news/${userId}.json`,
+        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news.json`,
         {
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify({
             news: payload,
           }),
@@ -18,7 +17,6 @@ export default {
       );
 
       const responseData = await response.json();
-      console.log(responseData);
 
       if (!response.ok) {
         const error = new Error(
@@ -29,9 +27,8 @@ export default {
     },
 
     async getAllNews(context) {
-      const userId = context.rootGetters.userId;
       const response = await fetch(
-        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news/${userId}.json`,
+        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news.json`,
         {
           method: "GET",
         }

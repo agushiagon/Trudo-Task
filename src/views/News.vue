@@ -106,13 +106,14 @@ export default {
         publicationDate: null,
         isRemovable: false,
         description: "",
+        authorId: null,
       },
     };
   },
-  computed: {
-    userData() {
-      return this.$store.getters.userData;
-    },
+  mounted() {
+    this.newsModel.author = localStorage.userName || "Guest";
+    this.newsModel.authorId = localStorage.userId;
+    this.getAllNews();
   },
   methods: {
     async saveNews() {
@@ -123,6 +124,13 @@ export default {
         console.log(err);
       } finally {
         this.saving = false;
+      }
+    },
+    async getAllNews() {
+      try {
+        await this.$store.dispatch("getAllNews");
+      } catch (err) {
+        console.log(err);
       }
     },
     customFormatter(date) {

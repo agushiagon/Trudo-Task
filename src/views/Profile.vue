@@ -3,23 +3,23 @@
   <div v-else class="user-profile">
     <div>
       <span> First Name: </span>
-      {{ userData.firstName }}
+      {{ userData?.firstName }}
     </div>
     <div>
       <span> Last Name: </span>
-      {{ userData.lastName }}
+      {{ userData?.lastName }}
     </div>
     <div>
       <span> Username: </span>
-      {{ userData.userName }}
+      {{ userData?.userName }}
     </div>
     <div>
       <span> Email: </span>
-      {{ userData.email }}
+      {{ userData?.email }}
     </div>
     <div>
       <span> Total News Created: </span>
-      {{ userData.totalNewsCreated || 0 }}
+      {{ userData?.totalNewsCreated || 0 }}
     </div>
   </div>
 </template>

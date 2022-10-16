@@ -75,6 +75,7 @@ export default {
 
       localStorage.setItem("token", responseData.idToken);
       localStorage.setItem("userId", responseData.localId);
+      localStorage.setItem("userName", responseData.displayName);
       localStorage.setItem("tokenExpiration", expirationDate);
 
       timer = setTimeout(function () {
@@ -112,6 +113,7 @@ export default {
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
       localStorage.removeItem("tokenExpiration");
+      localStorage.removeItem("userName");
 
       clearTimeout(timer);
 
