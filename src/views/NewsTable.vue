@@ -113,7 +113,7 @@ export default {
       this.$store.commit("setNewsToDelete", row);
     },
     setNewsModel(row) {
-      this.$store.commit("setNewsModel", row);
+      this.$store.commit("setNewsModel", JSON.parse(JSON.stringify(row)));
     },
     customFormatter(date) {
       return moment(date).format("DD-MM-YYYY");
