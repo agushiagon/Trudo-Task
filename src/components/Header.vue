@@ -1,7 +1,8 @@
 <template>
   <b-navbar class="header" type="dark" variant="dark">
-    <b-navbar-brand to="/">TRUDO-NEWS</b-navbar-brand>
+    <b-navbar-brand to="/">TRUDO</b-navbar-brand>
     <b-navbar-nav>
+      <b-link class="news-link" to="/news">News</b-link>
       <b-nav-item-dropdown left>
         <template #button-content>
           <b-avatar></b-avatar>
@@ -39,5 +40,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.news-link {
+  color: #fff;
+  align-self: center;
+  margin-right: 20px;
 }
 </style>
