@@ -47,7 +47,7 @@ export default {
       if (!response.ok) {
         const error = new Error(
           responseData.error.message ||
-          "Failed to authenticate. Check your login data."
+            "Failed to authenticate. Check your login data."
         );
         throw error;
       }
@@ -55,7 +55,7 @@ export default {
       if (mode === "signup") {
         await fetch(
           `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/users/${responseData.localId}.json?auth=` +
-          responseData.idToken,
+            responseData.idToken,
           {
             method: "PUT",
             body: JSON.stringify({

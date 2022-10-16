@@ -14,6 +14,8 @@
         centered
         cancel-variant="outline-secondary"
         no-enforce-focus
+        :ok-disabled="saving"
+        @ok="saveNews"
       >
         <b-form-group class="mb-2" label="Title">
           <b-form-input v-model="newsModel.title" type="text" />
@@ -95,6 +97,7 @@ export default {
   },
   data() {
     return {
+      saving: false,
       newsModel: {
         title: "",
         team: "",
@@ -112,6 +115,16 @@ export default {
     },
   },
   methods: {
+    async saveNews() {
+      this.saving = true;
+      try {
+        await this.$store.dispatch("saveNews", this.newsModel);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.saving = false;
+      }
+    },
     customFormatter(date) {
       return moment(date).format("DD-MM-YYYY");
     },
