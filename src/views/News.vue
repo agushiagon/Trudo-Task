@@ -185,13 +185,12 @@ export default {
         );
         return filterdNews;
       }
-      // TODO
-      // if (this.filterTags?.length) {
-      //   const filterdNews = this.$store.getters.getNews.filter((news) =>
-      //     news.tags.filter((tags) => !this.filterTags.includes(tags))
-      //   );
-      //   return filterdNews;
-      // }
+      if (this.filterTags?.length) {
+        const filterdNews = this.$store.getters.getNews.filter((news) =>
+          news.tags.some((tag) => this.filterTags.includes(tag))
+        );
+        return filterdNews;
+      }
       return this.$store.getters.getNews;
     },
     rowToDelete() {
