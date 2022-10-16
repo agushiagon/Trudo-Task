@@ -1,7 +1,12 @@
 <template>
   <div class="news-page">
     <b-col class="d-flex justify-content-between mb-3">
-      <b-button v-b-modal.modal-register-news variant="primary" size="sm">
+      <b-button
+        v-b-modal.modal-register-news
+        @click="defalutNewsModel"
+        variant="primary"
+        size="sm"
+      >
         Register News
       </b-button>
     </b-col>
@@ -168,12 +173,15 @@ export default {
     },
     getNewsModel() {
       this.newsModel = this.$store.getters.getNewsModel;
+      this.defalutNewsModel();
+    },
+    defalutNewsModel() {
       this.$store.commit("setNewsModel", {
         title: "",
         team: "",
         tags: [],
         author: localStorage.userName || "Guest",
-        publicationDate: null,
+        publicationDate: Date.now(),
         isRemovable: true,
         description: "",
         authorId: localStorage.userId,

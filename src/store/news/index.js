@@ -3,16 +3,7 @@ export default {
     return {
       news: null,
       rowToDelete: {},
-      newsModel: {
-        title: "",
-        team: "",
-        tags: [],
-        author: localStorage.userName || "Guest",
-        publicationDate: null,
-        isRemovable: true,
-        description: "",
-        authorId: localStorage.userId,
-      },
+      newsModel: {},
     };
   },
   actions: {
