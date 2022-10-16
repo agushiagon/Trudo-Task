@@ -177,17 +177,27 @@ export default {
   },
   computed: {
     news() {
-      if (this.filterDate) {
-        const filterdNews = this.$store.getters.getNews.filter(
+      let filteredByDate = {};
+      if (this.filterDate && this.filterTags?.length) {
+        filteredByDate = this.$store.getters.getNews.filter(
           (news) =>
             this.customFormatter(news.publicationDate) ===
             this.customFormatter(this.filterDate)
         );
+        const filterdNews = filteredByDate.filter((news) =>
+          news?.tags?.some((tag) => this.filterTags.includes(tag))
+        );
         return filterdNews;
-      }
-      if (this.filterTags?.length) {
+      } else if (this.filterDate) {
+        filteredByDate = this.$store.getters.getNews.filter(
+          (news) =>
+            this.customFormatter(news.publicationDate) ===
+            this.customFormatter(this.filterDate)
+        );
+        return filteredByDate;
+      } else if (this.filterTags?.length) {
         const filterdNews = this.$store.getters.getNews.filter((news) =>
-          news.tags.some((tag) => this.filterTags.includes(tag))
+          news?.tags?.some((tag) => this.filterTags.includes(tag))
         );
         return filterdNews;
       }
