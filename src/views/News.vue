@@ -9,7 +9,7 @@
       >
         Register News
       </b-button>
-      <div>
+      <div class="d-flex">
         <b-dropdown
           ref="dateDropdown"
           menu-class="py-0"
@@ -38,6 +38,11 @@
             />
           </div>
         </b-dropdown>
+        <b-form-tags
+          input-id="tags-basic"
+          class="filter-tag mr-2"
+          v-model="filterTags"
+        ></b-form-tags>
         <b-button @click="clearFilters">Clear Filters</b-button>
       </div>
     </b-col>
@@ -164,6 +169,7 @@ export default {
       saving: false,
       newsModel: {},
       filterDate: null,
+      filterTags: null,
     };
   },
   mounted() {
@@ -179,6 +185,13 @@ export default {
         );
         return filterdNews;
       }
+      // TODO
+      // if (this.filterTags?.length) {
+      //   const filterdNews = this.$store.getters.getNews.filter((news) =>
+      //     news.tags.filter((tags) => !this.filterTags.includes(tags))
+      //   );
+      //   return filterdNews;
+      // }
       return this.$store.getters.getNews;
     },
     rowToDelete() {
@@ -213,6 +226,7 @@ export default {
     },
     clearFilters() {
       this.filterDate = null;
+      this.filterTags = null;
     },
     getNewsModel() {
       this.newsModel = this.$store.getters.getNewsModel;
@@ -259,5 +273,10 @@ export default {
   color: #bfcbd9;
   background-color: #eef1f6;
   border-color: #d1dbe5;
+}
+.filter-tag {
+  width: 200px;
+  height: 38px !important;
+  overflow: auto;
 }
 </style>
