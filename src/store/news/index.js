@@ -2,6 +2,7 @@ export default {
   state() {
     return {
       news: null,
+      rowToDelete: {},
     };
   },
   actions: {
@@ -20,6 +21,19 @@ export default {
         const error = new Error(
           responseData.error.message || "Something went wrong."
         );
+        throw error;
+      }
+    },
+    async deleteNews(_, payload) {
+      const response = await fetch(
+        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news/${payload.newsId}.json`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        const error = new Error("Something went wrong.");
         throw error;
       }
     },
@@ -52,10 +66,16 @@ export default {
     setNews(state, payload) {
       state.news = payload;
     },
+    setNewsToDelete(state, row) {
+      state.rowToDelete = row;
+    },
   },
   getters: {
     getNews(state) {
       return state.news;
+    },
+    rowToDelete(state) {
+      return state.rowToDelete;
     },
   },
 };

@@ -35,7 +35,10 @@
                 <b-dropdown-item v-b-modal.modal-add-user>
                   <span>Edit</span>
                 </b-dropdown-item>
-                <b-dropdown-item v-b-modal.modal-small-delete>
+                <b-dropdown-item
+                  v-b-modal.modal-small-delete
+                  @click="deleteNews(data.row)"
+                >
                   <span>Delete</span>
                 </b-dropdown-item>
               </b-dropdown>
@@ -103,6 +106,9 @@ export default {
     };
   },
   methods: {
+    deleteNews(row) {
+      this.$store.commit("setNewsToDelete", row);
+    },
     customFormatter(date) {
       return moment(date).format("DD-MM-YYYY");
     },

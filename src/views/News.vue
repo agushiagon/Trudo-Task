@@ -9,6 +9,24 @@
       <news-table :data="news" :is-loading="isLoading" />
     </b-card>
     <b-modal
+      id="modal-small-delete"
+      ok-title="Delete"
+      cancel-title="Cancel"
+      ok-variant="danger"
+      cancel-variant="outline-secondary"
+      centered
+      size="md"
+      title="Delete News"
+      no-enforce-focus
+      :hide-footer="!rowToDelete.isRemovable"
+      @ok="triggerDelete"
+    >
+      <span v-if="rowToDelete.isRemovable">
+        Are you sure you want to delete this
+      </span>
+      <span v-else>You can not delete this news :(</span>
+    </b-modal>
+    <b-modal
       id="modal-register-news"
       title="Register News"
       ok-title="Save"
@@ -123,6 +141,9 @@ export default {
     news() {
       return this.$store.getters.getNews;
     },
+    rowToDelete() {
+      return this.$store.getters.rowToDelete;
+    },
   },
   methods: {
     async saveNews() {
@@ -133,6 +154,7 @@ export default {
         console.log(err);
       } finally {
         this.saving = false;
+        await this.getAllNews();
       }
     },
     async getAllNews() {
@@ -143,6 +165,15 @@ export default {
         console.log(err);
       } finally {
         this.isLoading = false;
+      }
+    },
+    async triggerDelete() {
+      try {
+        await this.$store.dispatch("deleteNews", this.rowToDelete);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        await this.getAllNews();
       }
     },
     customFormatter(date) {
