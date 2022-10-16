@@ -12,8 +12,10 @@
     <vue-good-table v-else :columns="columns" :rows="data">
       <!-- Empty state slot -->
       <slot slot="table-row" slot-scope="data">
-        <span v-if="data.column.field === 'tags'">
-          {{ data.formattedRow.tags }}
+        <span v-if="data.column.field === 'tags'" class="d-flex flex-column">
+          <span v-for="(tags, index) in data.formattedRow.tags" :key="index">
+            {{ tags }}
+          </span>
         </span>
         <span v-else-if="data.column.field === 'publicationDate'">
           {{ customFormatter(data.formattedRow.publicationDate) }}
