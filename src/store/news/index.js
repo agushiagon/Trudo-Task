@@ -33,6 +33,11 @@ export default {
       );
 
       const responseData = await response.json();
+      const allNewsId = Object.keys(responseData);
+      const news = Object.values(responseData).map((newsData, index) => ({
+        ...newsData,
+        newsId: allNewsId[index],
+      }));
 
       if (!response.ok) {
         const error = new Error(
@@ -40,7 +45,7 @@ export default {
         );
         throw error;
       }
-      context.commit("setNews", Object.values(responseData));
+      context.commit("setNews", news);
     },
   },
   mutations: {

@@ -19,7 +19,6 @@ export default {
     },
   },
   created() {
-    console.log("created");
     this.$store.dispatch("tryLogin");
   },
   watch: {
