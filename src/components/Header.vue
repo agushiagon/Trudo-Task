@@ -7,6 +7,7 @@
           <b-avatar></b-avatar>
         </template>
         <b-dropdown-item to="/user-profile">Profile</b-dropdown-item>
+        <b-dropdown-item to="/user-news">My News</b-dropdown-item>
         <b-dropdown-item v-if="!isLoggedIn" to="/auth">Login</b-dropdown-item>
         <b-dropdown-item v-else @click="logout"> Log Out </b-dropdown-item>
       </b-nav-item-dropdown>

@@ -26,6 +26,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/user-news",
+    name: "UserNews",
+    component: () => import("../views/UserNews.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/error",
     name: "error",
     component: () => import("../views/Error.vue"),
