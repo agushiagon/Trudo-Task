@@ -54,7 +54,7 @@
       <b-spinner v-if="isLoading" class="ml-50" small variant="light" />
       {{ submitButtonCaption }}
     </b-button>
-    <b-button size="sm" class="mt-3 ms-2" @click="switchAuthMode">{{
+    <b-button size="sm" class="mt-3 ml-2" @click="switchAuthMode">{{
       switchModeButtonCaption
     }}</b-button>
     <b-modal
