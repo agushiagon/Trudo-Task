@@ -32,7 +32,10 @@
                 <template v-slot:button-content>
                   <b-icon-three-dots />
                 </template>
-                <b-dropdown-item v-b-modal.modal-add-user>
+                <b-dropdown-item
+                  v-b-modal.modal-register-news
+                  @click="setNewsModel(data.row)"
+                >
                   <span>Edit</span>
                 </b-dropdown-item>
                 <b-dropdown-item
@@ -108,6 +111,9 @@ export default {
   methods: {
     deleteNews(row) {
       this.$store.commit("setNewsToDelete", row);
+    },
+    setNewsModel(row) {
+      this.$store.commit("setNewsModel", row);
     },
     customFormatter(date) {
       return moment(date).format("DD-MM-YYYY");

@@ -3,6 +3,16 @@ export default {
     return {
       news: null,
       rowToDelete: {},
+      newsModel: {
+        title: "",
+        team: "",
+        tags: [],
+        author: localStorage.userName || "Guest",
+        publicationDate: null,
+        isRemovable: true,
+        description: "",
+        authorId: localStorage.userId,
+      },
     };
   },
   actions: {
@@ -11,6 +21,24 @@ export default {
         `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news.json`,
         {
           method: "POST",
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        const error = new Error(
+          responseData.error.message || "Something went wrong."
+        );
+        throw error;
+      }
+    },
+    async editNews(_, payload) {
+      const response = await fetch(
+        `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news/${payload.newsId}.json`,
+        {
+          method: "PATCH",
           body: JSON.stringify(payload),
         }
       );
@@ -69,6 +97,9 @@ export default {
     setNewsToDelete(state, row) {
       state.rowToDelete = row;
     },
+    setNewsModel(state, row) {
+      state.newsModel = row;
+    },
   },
   getters: {
     getNews(state) {
@@ -76,6 +107,9 @@ export default {
     },
     rowToDelete(state) {
       return state.rowToDelete;
+    },
+    getNewsModel(state) {
+      return state.newsModel;
     },
   },
 };

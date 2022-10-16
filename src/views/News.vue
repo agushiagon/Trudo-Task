@@ -28,13 +28,14 @@
     </b-modal>
     <b-modal
       id="modal-register-news"
-      title="Register News"
+      :title="!!newsModel.newsId ? 'Edit News' : 'Register News'"
       ok-title="Save"
       cancel-title="Cancel"
       centered
       cancel-variant="outline-secondary"
       no-enforce-focus
       :ok-disabled="saving"
+      @show="getNewsModel"
       @ok="saveNews"
     >
       <b-form-group class="mb-2" label="Title">
@@ -44,6 +45,7 @@
         <v-select
           v-model="newsModel.team"
           :clearable="false"
+          :class="!!newsModel.newsId ? 'disabled' : ''"
           label="text"
           placeholder="Choose Team"
           :options="['Team A', 'Team B', 'Team C']"
@@ -56,7 +58,11 @@
         ></b-form-tags>
       </b-form-group>
       <b-form-group class="mb-2" label="Author">
-        <b-form-input v-model="newsModel.author" type="text" />
+        <b-form-input
+          v-model="newsModel.author"
+          :disabled="!!newsModel.newsId"
+          type="text"
+        />
       </b-form-group>
       <div class="d-flex flex-column">
         <span class="mb-50"> Publication Date </span>
@@ -120,21 +126,10 @@ export default {
     return {
       isLoading: true,
       saving: false,
-      newsModel: {
-        title: "",
-        team: "",
-        tags: [],
-        author: "",
-        publicationDate: null,
-        isRemovable: false,
-        description: "",
-        authorId: null,
-      },
+      newsModel: {},
     };
   },
   mounted() {
-    this.newsModel.author = localStorage.userName || "Guest";
-    this.newsModel.authorId = localStorage.userId;
     this.getAllNews();
   },
   computed: {
@@ -149,7 +144,11 @@ export default {
     async saveNews() {
       this.saving = true;
       try {
-        await this.$store.dispatch("saveNews", this.newsModel);
+        if (this.newsModel.newsId) {
+          await this.$store.dispatch("editNews", this.newsModel);
+        } else {
+          await this.$store.dispatch("saveNews", this.newsModel);
+        }
       } catch (err) {
         console.log(err);
       } finally {
@@ -166,6 +165,19 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+    getNewsModel() {
+      this.newsModel = this.$store.getters.getNewsModel;
+      this.$store.commit("setNewsModel", {
+        title: "",
+        team: "",
+        tags: [],
+        author: localStorage.userName || "Guest",
+        publicationDate: null,
+        isRemovable: true,
+        description: "",
+        authorId: localStorage.userId,
+      });
     },
     async triggerDelete() {
       try {
@@ -186,5 +198,15 @@ export default {
 <style>
 .news-page {
   margin: 20px 50px;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.disabled .vs__dropdown-toggle {
+  color: #bfcbd9;
+  background-color: #eef1f6;
+  border-color: #d1dbe5;
 }
 </style>
