@@ -41,6 +41,7 @@
         <b-form-tags
           input-id="tags-basic"
           class="filter-tag mr-2"
+          placeholder="Filter by tags"
           v-model="filterTags"
         ></b-form-tags>
         <b-button @click="clearFilters">Clear Filters</b-button>
