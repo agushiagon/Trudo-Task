@@ -19,7 +19,7 @@
     </div>
     <div>
       <span> Total News Created: </span>
-      {{ userData?.totalNewsCreated || 0 }}
+      {{ totalNewsCreated }}
     </div>
   </div>
 </template>
@@ -35,15 +35,32 @@ export default {
     userData() {
       return this.$store.getters.userData;
     },
+    totalNewsCreated() {
+      const news = this.$store.getters.getNews;
+      const userId = localStorage.userId;
+      const userNews = news?.filter((news) => news.authorId === userId);
+      return userNews.length;
+    },
   },
   created() {
     this.getUserData();
+    this.getAllNews();
   },
   methods: {
     async getUserData() {
       this.isLoading = true;
       await this.$store.dispatch("getUserData");
       this.isLoading = false;
+    },
+    async getAllNews() {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("getAllNews");
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 };
