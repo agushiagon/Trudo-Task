@@ -11,6 +11,41 @@
     <!-- Vue Data Table -->
     <vue-good-table v-else :columns="columns" :rows="data">
       <!-- Empty state slot -->
+      <slot slot="table-row" slot-scope="data">
+        <span v-if="data.column.field === 'tags'">
+          {{ data.formattedRow.tags }}
+        </span>
+        <span v-else-if="data.column.field === 'publicationDate'">
+          {{ customFormatter(data.formattedRow.publicationDate) }}
+        </span>
+        <span v-else-if="data.column.field === 'description'">
+          <div class="d-flex justify-content-between">
+            <span class="align-self-center">
+              {{ data.formattedRow.description }}
+            </span>
+            <span>
+              <b-dropdown
+                variant="link-light"
+                toggle-class="text-decoration-none"
+                no-caret
+              >
+                <template v-slot:button-content>
+                  <b-icon-three-dots />
+                </template>
+                <b-dropdown-item v-b-modal.modal-add-user>
+                  <span>Edit</span>
+                </b-dropdown-item>
+                <b-dropdown-item v-b-modal.modal-small-delete>
+                  <span>Delete</span>
+                </b-dropdown-item>
+              </b-dropdown>
+            </span>
+          </div>
+        </span>
+        <span v-else>
+          {{ data.formattedRow[data.column.field] }}
+        </span>
+      </slot>
       <div slot="emptystate" class="empty-state d-flex justify-content-center">
         <div class="m-auto">
           <span>No News Have Been Registerd Yet</span>
@@ -23,6 +58,7 @@
 <script>
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
+import moment from "moment";
 
 export default {
   components: {
@@ -65,6 +101,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    customFormatter(date) {
+      return moment(date).format("DD-MM-YYYY");
+    },
   },
 };
 </script>
