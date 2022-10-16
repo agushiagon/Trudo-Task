@@ -23,8 +23,11 @@ export default {
     this.getAllNews();
   },
   computed: {
-    News() {
-      return this.$store.getters.getNews;
+    userNews() {
+      const news = this.$store.getters.getNews;
+      const userId = localStorage.userId;
+      const userNews = news?.filter((news) => news.authorId === userId);
+      return userNews;
     },
   },
   methods: {
