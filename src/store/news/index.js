@@ -10,9 +10,7 @@ export default {
         `https://tudo-task-6e856-default-rtdb.europe-west1.firebasedatabase.app/news.json`,
         {
           method: "POST",
-          body: JSON.stringify({
-            news: payload,
-          }),
+          body: JSON.stringify(payload),
         }
       );
 
@@ -35,7 +33,6 @@ export default {
       );
 
       const responseData = await response.json();
-      console.log(responseData);
 
       if (!response.ok) {
         const error = new Error(
@@ -43,7 +40,7 @@ export default {
         );
         throw error;
       }
-      context.commit("setNews", responseData);
+      context.commit("setNews", Object.values(responseData));
     },
   },
   mutations: {
