@@ -9,6 +9,37 @@
       >
         Register News
       </b-button>
+      <div>
+        <b-dropdown
+          ref="dateDropdown"
+          menu-class="py-0"
+          right
+          variant="outline-dark"
+          no-caret
+          class="mr-2"
+        >
+          <template #button-content>
+            <span
+              class="d-flex w-100 justify-content-between align-items-center"
+            >
+              <b-icon-calendar2-day class="mr-1" />
+              <span>
+                {{ filterDate ? customFormatter(filterDate) : "Select Date" }}
+              </span>
+            </span>
+          </template>
+          <div>
+            <vuejs-datepicker
+              v-model="filterDate"
+              bootstrap-styling
+              :inline="true"
+              :use-utc="false"
+              :format="customFormatter"
+            />
+          </div>
+        </b-dropdown>
+        <b-button @click="clearFilters">Clear Filters</b-button>
+      </div>
     </b-col>
     <b-card class="my-50" no-body>
       <news-table :data="news" :is-loading="isLoading" />
@@ -132,6 +163,7 @@ export default {
       isLoading: true,
       saving: false,
       newsModel: {},
+      filterDate: null,
     };
   },
   mounted() {
@@ -139,6 +171,14 @@ export default {
   },
   computed: {
     news() {
+      if (this.filterDate) {
+        const filterdNews = this.$store.getters.getNews.filter(
+          (news) =>
+            this.customFormatter(news.publicationDate) ===
+            this.customFormatter(this.filterDate)
+        );
+        return filterdNews;
+      }
       return this.$store.getters.getNews;
     },
     rowToDelete() {
@@ -170,6 +210,9 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+    clearFilters() {
+      this.filterDate = null;
     },
     getNewsModel() {
       this.newsModel = this.$store.getters.getNewsModel;

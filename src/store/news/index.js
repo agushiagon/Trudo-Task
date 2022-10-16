@@ -66,11 +66,14 @@ export default {
       );
 
       const responseData = await response.json();
-      const allNewsId = Object.keys(responseData);
-      const news = Object.values(responseData).map((newsData, index) => ({
-        ...newsData,
-        newsId: allNewsId[index],
-      }));
+      let news = {};
+      if (responseData) {
+        const allNewsId = Object.keys(responseData);
+        news = Object.values(responseData).map((newsData, index) => ({
+          ...newsData,
+          newsId: allNewsId[index],
+        }));
+      }
 
       if (!response.ok) {
         const error = new Error(
